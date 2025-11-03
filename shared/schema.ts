@@ -19,9 +19,13 @@ export type InsertTarotCard = z.infer<typeof insertTarotCardSchema>;
 export type TarotCard = typeof tarotCards.$inferSelect;
 
 export const TAROT_CARDS = [
+  "The Fool",
+  "The Magician",
+  "The High Priestess",
   "The Empress",
   "The Emperor",
   "The Hierophant",
+  "The Lovers",
   "The Chariot",
   "Strength",
   "The Hermit",
@@ -33,6 +37,8 @@ export const TAROT_CARDS = [
   "The Devil",
   "The Tower",
   "The Star",
+  "The Moon",
+  "The Sun",
   "Judgement",
   "The World",
 ] as const;

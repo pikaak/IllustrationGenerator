@@ -16,13 +16,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/cards", async (req, res) => {
     try {
       const cards = await storage.getAllTarotCards();
-      
+
       // Return as a Map-compatible structure (array of [key, value] pairs)
       const cardsMap = new Map<string, string>();
       cards.forEach(card => {
         cardsMap.set(card.name, card.imageUrl);
       });
-      
+
       // Convert Map to object for JSON serialization
       const cardsObject = Object.fromEntries(cardsMap);
       res.json(cardsObject);
@@ -35,7 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // POST /api/generate - Generate a single tarot card
   app.post("/api/generate", async (req, res) => {
     try {
-      const { cardName } = z.object({ cardName: z.string() }).parse(req.body);
+      const { cardName, customPrompt } = z.object({ cardName: z.string(), customPrompt: z.string().optional() }).parse(req.body);
 
       // Check if card already exists
       const existingCard = await storage.getTarotCardByName(cardName);
@@ -45,13 +45,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Generate image using Gemini AI
       console.log(`Generating tarot card: ${cardName}`);
-      const base64Image = await generateTarotCardImage(cardName);
+      const prompt = customPrompt || `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
+      const base64Image = await generateTarotCardImage(cardName, prompt);
 
       // Save image to file
       const imageUrl = saveImageToFile(cardName, base64Image);
 
       // Store in database
-      const prompt = `Mystical cat-themed tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
       const card = await storage.createTarotCard({
         name: cardName,
         imageUrl,
@@ -66,13 +66,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // POST /api/generate-all - Generate all 16 tarot cards in batch
+  // POST /api/generate-all - Generate all 22 tarot cards in batch
   app.post("/api/generate-all", async (req, res) => {
     try {
       // Get list of cards that haven't been generated yet
       const existingCards = await storage.getAllTarotCards();
       const existingCardNames = new Set(existingCards.map(c => c.name));
-      
+
+      // Use the updated TAROT_CARDS which should contain 22 cards
       const cardsToGenerate = TAROT_CARDS.filter(name => !existingCardNames.has(name));
 
       if (cardsToGenerate.length === 0) {
@@ -81,7 +82,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Start batch generation in background (don't wait for completion)
       console.log(`Starting batch generation of ${cardsToGenerate.length} cards...`);
-      
+
       // Respond immediately to client
       res.json({ 
         message: "Batch generation started", 
@@ -94,30 +95,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         try {
           console.log(`Generating ${cardsToGenerate.length} cards in background...`);
           const results = await batchGenerateTarotCards(cardsToGenerate);
-          
+
           console.log(`Batch generation complete. Saving ${results.size} cards...`);
-          
+
           // Save all successfully generated cards
           let savedCount = 0;
           for (const [cardName, base64Image] of results.entries()) {
             try {
               console.log(`Saving ${cardName}...`);
               const imageUrl = saveImageToFile(cardName, base64Image);
-              const prompt = `Mystical cat-themed tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
-              
+              // Use the updated prompt for Cat Tarot
+              const prompt = `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
+
               await storage.createTarotCard({
                 name: cardName,
                 imageUrl,
                 prompt,
               });
-              
+
               savedCount++;
               console.log(`✓ Saved ${savedCount}/${results.size}: ${cardName}`);
             } catch (error) {
               console.error(`✗ Failed to save ${cardName}:`, error);
             }
           }
-          
+
           console.log(`Batch generation completed. Successfully saved ${savedCount}/${results.size} cards.`);
         } catch (error) {
           console.error("Batch generation error:", error);

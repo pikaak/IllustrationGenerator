@@ -38,7 +38,7 @@ export function HeroSection({ onGenerateClick }: HeroSectionProps) {
 
         {/* Main heading */}
         <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold gradient-text-mystical leading-tight">
-          Mystical Cat Tarot Generator
+          Cat Tarot Generator
         </h1>
 
         {/* Subtitle */}
@@ -61,7 +61,7 @@ export function HeroSection({ onGenerateClick }: HeroSectionProps) {
 
         {/* Trust indicator */}
         <p className="text-sm text-muted-foreground/80 font-sans uppercase tracking-wider pt-4">
-          Powered by AI • 16 Major Arcana Cards
+          Powered by AI • 22 Major Arcana Cards
         </p>
 
         {/* Ornate decorative bottom border */}

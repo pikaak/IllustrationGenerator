@@ -25,11 +25,11 @@ export default function Home() {
 
   // Generate single card mutation
   const generateCardMutation = useMutation({
-    mutationFn: async (cardName: TarotCardName) => {
-      const response = await apiRequest("POST", "/api/generate", { cardName });
+    mutationFn: async ({ cardName, customPrompt }: { cardName: TarotCardName; customPrompt?: string }) => {
+      const response = await apiRequest("POST", "/api/generate", { cardName, customPrompt });
       return response;
     },
-    onSuccess: (data, cardName) => {
+    onSuccess: (data, { cardName }) => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
         title: "Card Generated!",
@@ -55,7 +55,7 @@ export default function Home() {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
         title: "Batch Generation Started!",
-        description: "Generating all 16 tarot cards. This may take a few minutes.",
+        description: "Generating all 22 tarot cards. This may take a few minutes.",
       });
     },
     onError: (error: any) => {
@@ -67,8 +67,8 @@ export default function Home() {
     },
   });
 
-  const handleGenerateCard = async (cardName: TarotCardName) => {
-    await generateCardMutation.mutateAsync(cardName);
+  const handleGenerateCard = async (cardName: TarotCardName, customPrompt?: string) => {
+    await generateCardMutation.mutateAsync({ cardName, customPrompt });
   };
 
   const handleGenerateAll = async () => {

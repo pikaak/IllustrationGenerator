@@ -63,7 +63,7 @@ export function CardDetailModal({ isOpen, onClose, cardName, imageUrl }: CardDet
                   Generation Prompt
                 </h4>
                 <p className="text-sm text-muted-foreground font-sans bg-muted/50 p-4 rounded-lg">
-                  Mystical cat-themed tarot card illustrations for {cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio
+                  Cat tarot card illustrations for {cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio
                 </p>
               </div>
             </div>

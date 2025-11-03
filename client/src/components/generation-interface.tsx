@@ -5,9 +5,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Download, Loader2 } from "lucide-react";
 import { MysticalSpinner } from "./loading-spinner";
+import { Textarea } from "@/components/ui/textarea";
 
 interface GenerationInterfaceProps {
-  onGenerateCard: (cardName: TarotCardName) => Promise<void>;
+  onGenerateCard: (cardName: TarotCardName, customPrompt?: string) => Promise<void>;
   onGenerateAll: () => Promise<void>;
   selectedCard: TarotCardName | null;
   setSelectedCard: (card: TarotCardName | null) => void;
@@ -23,6 +24,16 @@ export function GenerationInterface({
   isGenerating,
   generatedCards,
 }: GenerationInterfaceProps) {
+  const [customPrompt, setCustomPrompt] = useState("");
+  const [isEditingPrompt, setIsEditingPrompt] = useState(false);
+
+  const getPromptText = () => {
+    if (customPrompt) return customPrompt;
+    return selectedCard 
+      ? `Cat tarot card illustrations for ${selectedCard}, ornate border, mystical atmosphere, 2:3 aspect ratio`
+      : "Cat tarot card illustrations, ornate border, mystical atmosphere, 2:3 aspect ratio";
+  };
+
   return (
     <section className="py-16 md:py-24 px-6" id="generate">
       <div className="max-w-7xl mx-auto">
@@ -53,7 +64,7 @@ export function GenerationInterface({
                 ) : (
                   <Sparkles className="h-4 w-4" />
                 )}
-                Generate All 16 Cards
+                Generate All 22 Cards
               </Button>
             </div>
 
@@ -93,7 +104,7 @@ export function GenerationInterface({
             {/* Generate Selected Button */}
             {selectedCard && (
               <Button
-                onClick={() => onGenerateCard(selectedCard)}
+                onClick={() => onGenerateCard(selectedCard, customPrompt || undefined)}
                 disabled={isGenerating}
                 className="w-full gap-2"
                 size="lg"
@@ -173,9 +184,27 @@ export function GenerationInterface({
             {selectedCard && (
               <Card className="bg-muted/50">
                 <CardContent className="p-4">
-                  <p className="text-sm font-sans text-muted-foreground">
-                    <span className="font-semibold">Prompt:</span> Mystical cat-themed tarot card illustrations for {selectedCard}, ornate border, mystical atmosphere, 2:3 aspect ratio
-                  </p>
+                  {isEditingPrompt ? (
+                    <div className="space-y-2">
+                      <label className="text-sm font-semibold text-muted-foreground">
+                        Custom Prompt:
+                      </label>
+                      <Textarea
+                        value={customPrompt || getPromptText()}
+                        onChange={(e) => setCustomPrompt(e.target.value)}
+                        onBlur={() => setIsEditingPrompt(false)}
+                        className="min-h-[80px] text-sm font-sans"
+                        autoFocus
+                      />
+                    </div>
+                  ) : (
+                    <p 
+                      className="text-sm font-sans text-muted-foreground cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors"
+                      onClick={() => setIsEditingPrompt(true)}
+                    >
+                      <span className="font-semibold">Prompt:</span> {getPromptText()}
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             )}

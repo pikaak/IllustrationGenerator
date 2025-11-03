@@ -24,8 +24,8 @@ function isRateLimitError(error: any): boolean {
 }
 
 // Generate a single tarot card image
-export async function generateTarotCardImage(cardName: string): Promise<string> {
-  const prompt = `Mystical cat-themed tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
+export async function generateTarotCardImage(cardName: string, customPrompt?: string): Promise<string> {
+  const prompt = customPrompt || `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
 
   return await pRetry(
     async () => {
