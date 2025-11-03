@@ -4,7 +4,7 @@ import express from "express";
 import path from "path";
 import { storage } from "./storage";
 import { generateTarotCardImage, batchGenerateTarotCards } from "./gemini";
-import { saveImageToFile } from "./image-storage";
+import { saveImageToFile, IMAGES_DIR } from "./image-storage";
 import { TAROT_CARDS } from "@shared/schema";
 import { TAROT_MEANINGS } from "./tarot-meanings";
 import { z } from "zod";
@@ -157,12 +157,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/download/:filename", async (req, res) => {
     try {
       const filename = req.params.filename;
-      const filepath = path.join(process.cwd(), "generated_images", filename); // Assuming IMAGES_DIR is generated_images
+      const filepath = path.join(IMAGES_DIR, filename);
 
-      res.download(filepath, (err) => {
+      res.download(filepath, filename, (err) => {
         if (err) {
           console.error("Error downloading file:", err);
-          res.status(404).json({ error: "File not found" });
+          if (!res.headersSent) {
+            res.status(404).json({ error: "File not found" });
+          }
         }
       });
     } catch (error) {

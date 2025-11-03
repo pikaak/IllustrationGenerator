@@ -176,23 +176,13 @@ export default function Home() {
     let downloadedCount = 0;
     for (const card of generatedCards.values()) {
       try {
-        // Fetch the image as a blob
-        const response = await fetch(card.imageUrl);
-        const blob = await response.blob();
-
-        // Create a blob URL
-        const blobUrl = URL.createObjectURL(blob);
-
-        // Create and click download link
+        const filename = card.imageUrl.split('/').pop();
         const link = document.createElement("a");
-        link.href = blobUrl;
+        link.href = `/api/download/${filename}`;
         link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
-        // Clean up blob URL
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
 
         downloadedCount++;
 
