@@ -15,7 +15,10 @@ export default function Home() {
   const { toast } = useToast();
   const [isBatchGenerating, setIsBatchGenerating] = useState(false);
   const [generatedCount, setGeneratedCount] = useState(0);
+  const [batchStartTime, setBatchStartTime] = useState<number | null>(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch all generated cards
   const { data: cardsArray, isLoading: isCardsLoading } = useQuery<TarotCard[]>({
@@ -31,18 +34,40 @@ export default function Home() {
       if (currentCount === 22) {
         setIsBatchGenerating(false);
         setGeneratedCount(0);
+        setBatchStartTime(null);
+        setElapsedTime(0);
         queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+        const totalTime = batchStartTime ? Math.round((Date.now() - batchStartTime) / 1000) : 0;
         toast({
           title: "Batch Generation Complete!",
-          description: "All 22 tarot cards have been generated.",
+          description: `All 22 tarot cards generated in ${totalTime} seconds.`,
         });
         if (pollingIntervalRef.current) {
           clearInterval(pollingIntervalRef.current);
           pollingIntervalRef.current = null;
         }
+        if (timerIntervalRef.current) {
+          clearInterval(timerIntervalRef.current);
+          timerIntervalRef.current = null;
+        }
       }
     }
-  }, [cardsArray, isBatchGenerating, toast]);
+  }, [cardsArray, isBatchGenerating, batchStartTime, toast]);
+
+  // Timer effect for elapsed time
+  useEffect(() => {
+    if (isBatchGenerating && batchStartTime) {
+      timerIntervalRef.current = setInterval(() => {
+        setElapsedTime(Math.floor((Date.now() - batchStartTime) / 1000));
+      }, 1000);
+    }
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+    };
+  }, [isBatchGenerating, batchStartTime]);
 
   // Convert array to Map for easier lookup (by name -> full card object)
   const generatedCards = new Map(
@@ -81,6 +106,8 @@ export default function Home() {
     onSuccess: () => {
       setIsBatchGenerating(true);
       setGeneratedCount(0); // Reset count at the start of batch generation
+      setBatchStartTime(Date.now());
+      setElapsedTime(0);
       toast({
         title: "Batch Generation Started!",
         description: "Generating all 22 tarot cards. This may take a few minutes.",
@@ -177,6 +204,7 @@ export default function Home() {
         generatedCards={generatedCards}
         isBatchGenerating={isBatchGenerating}
         generatedCount={generatedCount}
+        elapsedTime={elapsedTime}
       />
 
       <GallerySection

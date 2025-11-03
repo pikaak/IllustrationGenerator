@@ -51,8 +51,10 @@ export async function generateTarotCardImage(cardName: string, customPrompt?: st
         if (isRateLimitError(error)) {
           throw error; // Rethrow to trigger p-retry
         }
-        // For non-rate-limit errors, throw immediately (don't retry)
-        throw new pRetry.AbortError(error);
+        // For non-rate-limit errors, abort retrying
+        const abortError = new Error(error.message || String(error));
+        (abortError as any).name = 'AbortError';
+        throw abortError;
       }
     },
     {

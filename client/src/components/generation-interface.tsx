@@ -23,6 +23,9 @@ interface GenerationInterfaceProps {
   setSelectedCard: (card: TarotCardName | null) => void;
   isGenerating: boolean;
   generatedCards: Map<string, TarotCard>;
+  isBatchGenerating?: boolean;
+  generatedCount?: number;
+  elapsedTime?: number;
 }
 
 export function GenerationInterface({
@@ -33,6 +36,9 @@ export function GenerationInterface({
   setSelectedCard,
   isGenerating,
   generatedCards,
+  isBatchGenerating = false,
+  generatedCount = 0,
+  elapsedTime = 0,
 }: GenerationInterfaceProps) {
   const [customPrompt, setCustomPrompt] = useState("");
   const [isEditingPrompt, setIsEditingPrompt] = useState(false);
@@ -126,23 +132,31 @@ export function GenerationInterface({
             </div>
 
             {/* Batch Generation Progress */}
-            {isGenerating && generatedCards.size < TAROT_CARDS.length && (
+            {isBatchGenerating && generatedCount < TAROT_CARDS.length && (
               <Card className="p-4 bg-primary/5 border-primary/20">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-medium">Generating Cards...</span>
                     <span className="text-muted-foreground">
-                      {generatedCards.size} / {TAROT_CARDS.length}
+                      {generatedCount} / {TAROT_CARDS.length}
                     </span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                     <div
                       className="bg-primary h-full transition-all duration-500 ease-out"
-                      style={{ width: `${(generatedCards.size / TAROT_CARDS.length) * 100}%` }}
+                      style={{ width: `${(generatedCount / TAROT_CARDS.length) * 100}%` }}
                     />
                   </div>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>Elapsed: {Math.floor(elapsedTime / 60)}m {elapsedTime % 60}s</span>
+                    {generatedCount > 0 && (
+                      <span>
+                        Est. remaining: {Math.floor((elapsedTime / generatedCount) * (TAROT_CARDS.length - generatedCount) / 60)}m {Math.round((elapsedTime / generatedCount) * (TAROT_CARDS.length - generatedCount) % 60)}s
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-muted-foreground italic">
-                    This may take a few minutes. Cards will appear as they're generated.
+                    Cards will appear as they're generated. This typically takes 2-3 minutes per card.
                   </p>
                 </div>
               </Card>
