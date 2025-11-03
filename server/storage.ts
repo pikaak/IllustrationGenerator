@@ -1,37 +1,54 @@
-import { type User, type InsertUser } from "@shared/schema";
+import { type TarotCard, type InsertTarotCard } from "@shared/schema";
 import { randomUUID } from "crypto";
 
-// modify the interface with any CRUD methods
-// you might need
-
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  // Tarot card operations
+  getTarotCard(id: string): Promise<TarotCard | undefined>;
+  getTarotCardByName(name: string): Promise<TarotCard | undefined>;
+  getAllTarotCards(): Promise<TarotCard[]>;
+  createTarotCard(card: InsertTarotCard): Promise<TarotCard>;
+  updateTarotCard(id: string, card: Partial<InsertTarotCard>): Promise<TarotCard | undefined>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private tarotCards: Map<string, TarotCard>;
 
   constructor() {
-    this.users = new Map();
+    this.tarotCards = new Map();
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getTarotCard(id: string): Promise<TarotCard | undefined> {
+    return this.tarotCards.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+  async getTarotCardByName(name: string): Promise<TarotCard | undefined> {
+    return Array.from(this.tarotCards.values()).find(
+      (card) => card.name === name,
     );
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async getAllTarotCards(): Promise<TarotCard[]> {
+    return Array.from(this.tarotCards.values());
+  }
+
+  async createTarotCard(insertCard: InsertTarotCard): Promise<TarotCard> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const card: TarotCard = {
+      ...insertCard,
+      id,
+      generatedAt: new Date(),
+    };
+    this.tarotCards.set(id, card);
+    return card;
+  }
+
+  async updateTarotCard(id: string, updateData: Partial<InsertTarotCard>): Promise<TarotCard | undefined> {
+    const card = this.tarotCards.get(id);
+    if (!card) return undefined;
+
+    const updatedCard: TarotCard = { ...card, ...updateData };
+    this.tarotCards.set(id, updatedCard);
+    return updatedCard;
   }
 }
 
