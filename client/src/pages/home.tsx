@@ -173,35 +173,33 @@ export default function Home() {
       description: `Starting download of ${generatedCards.size} tarot cards...`,
     });
 
+    // For download all, we'll open each in a new window to trigger browser downloads
+    toast({
+      title: "Starting Downloads",
+      description: `Preparing to download ${generatedCards.size} cards. Please allow multiple downloads in your browser.`,
+    });
+
     let downloadedCount = 0;
     for (const card of generatedCards.values()) {
       try {
-        const response = await fetch(card.imageUrl);
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Clean up
-        URL.revokeObjectURL(blobUrl);
-
+        const filename = card.imageUrl.split('/').pop();
+        const downloadUrl = `/api/download/${filename}`;
+        
+        // Open download in new window to trigger browser download
+        window.open(downloadUrl, '_blank');
+        
         downloadedCount++;
 
-        // Small delay between downloads to avoid browser blocking
-        await new Promise(resolve => setTimeout(resolve, 300));
+        // Delay to avoid browser blocking
+        await new Promise(resolve => setTimeout(resolve, 500));
       } catch (error) {
         console.error(`Failed to download ${card.name}:`, error);
       }
     }
 
     toast({
-      title: "Download Complete",
-      description: `Successfully downloaded ${downloadedCount} of ${generatedCards.size} cards.`,
+      title: "Downloads Initiated",
+      description: `Initiated download for ${downloadedCount} of ${generatedCards.size} cards. Check your Downloads folder.`,
     });
   };
 

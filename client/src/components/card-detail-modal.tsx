@@ -18,24 +18,10 @@ interface CardDetailModalProps {
 }
 
 export function CardDetailModal({ isOpen, onClose, card }: CardDetailModalProps) {
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(card.imageUrl);
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Clean up
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
+  const handleDownload = () => {
+    const filename = card.imageUrl.split('/').pop();
+    const downloadUrl = `/api/download/${filename}`;
+    window.open(downloadUrl, '_blank');
   };
 
   return (
