@@ -15,7 +15,7 @@ export function Footer() {
           {/* Branding */}
           <div className="space-y-3">
             <h3 className="font-display text-xl font-bold gradient-text-mystical">
-              Cat Tarot
+              Cat Tarot Cards
             </h3>
             <p className="text-sm text-muted-foreground font-serif italic">
               Unveiling mysteries through AI-crafted feline divination
@@ -49,8 +49,7 @@ export function Footer() {
               Powered By
             </h4>
             <p className="text-sm text-muted-foreground">
-              Curioft<br />
-              22 Major Arcana interpretations
+              Curioft
             </p>
           </div>
         </div>
@@ -61,7 +60,7 @@ export function Footer() {
             <Sparkles className="h-3 w-3" />
             <span>© 2025 Cat Tarot Illustration Generator</span>
             <Moon className="h-3 w-3" />
-            <span>Created with mystical intentions</span>
+            <span>Created with Reflit</span>
             <Star className="h-3 w-3" />
           </p>
         </div>

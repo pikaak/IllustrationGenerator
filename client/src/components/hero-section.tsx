@@ -38,7 +38,7 @@ export function HeroSection({ onGenerateClick }: HeroSectionProps) {
 
         {/* Main heading */}
         <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold gradient-text-mystical leading-tight">
-          Cat Tarot Generator
+          Cat Tarot Illustration Generator
         </h1>
 
         {/* Subtitle */}
