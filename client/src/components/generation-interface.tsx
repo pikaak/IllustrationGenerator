@@ -3,7 +3,7 @@ import { TAROT_CARDS, type TarotCardName, type TarotCard, cardStyles, colorPalet
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Download, Loader2, Settings2 } from "lucide-react";
+import { Sparkles, Download, Loader2, Settings2, Wand2 } from "lucide-react";
 import { MysticalSpinner } from "./loading-spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -41,7 +41,7 @@ export function GenerationInterface({
 
   const getPromptText = () => {
     if (customPrompt) return customPrompt;
-    
+
     const styleDescriptions: Record<string, string> = {
       mystical: "mystical atmosphere",
       realistic: "realistic photographic style",
@@ -49,7 +49,7 @@ export function GenerationInterface({
       watercolor: "soft watercolor technique",
       vintage: "vintage antique aesthetic"
     };
-    
+
     const paletteDescriptions: Record<string, string> = {
       vibrant: "vibrant rich colors",
       muted: "muted earthy tones",
@@ -57,7 +57,7 @@ export function GenerationInterface({
       pastel: "soft pastel colors",
       cosmic: "cosmic deep space colors"
     };
-    
+
     const borderDescriptions: Record<string, string> = {
       ornate: "ornate decorative border",
       simple: "simple elegant border",
@@ -65,12 +65,12 @@ export function GenerationInterface({
       floral: "floral vine border",
       celestial: "celestial star border"
     };
-    
+
     const styleDesc = styleDescriptions[style] || "mystical atmosphere";
     const paletteDesc = paletteDescriptions[colorPalette] || "vibrant rich colors";
     const borderDesc = borderDescriptions[borderPattern] || "ornate border";
-    
-    return selectedCard 
+
+    return selectedCard
       ? `Cat tarot card illustrations for ${selectedCard}, ${borderDesc}, ${styleDesc}, ${paletteDesc}, 2:3 aspect ratio`
       : `Cat tarot card illustrations, ${borderDesc}, ${styleDesc}, ${paletteDesc}, 2:3 aspect ratio`;
   };
@@ -157,7 +157,7 @@ export function GenerationInterface({
                     {showCustomization ? "Hide" : "Show"}
                   </Button>
                 </div>
-                
+
                 {showCustomization && (
                   <div className="space-y-4 pt-2">
                     <div className="space-y-2">
@@ -216,22 +216,12 @@ export function GenerationInterface({
             {selectedCard && (
               <Button
                 onClick={() => onGenerateCard(selectedCard, customPrompt || getPromptText())}
-                disabled={isGenerating}
-                className="w-full gap-2"
-                size="lg"
+                disabled={isGenerating || !selectedCard}
+                className="gap-2"
                 data-testid="button-generate-selected"
               >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-5 w-5" />
-                    Generate "{selectedCard}"
-                  </>
-                )}
+                <Wand2 className="h-5 w-5" />
+                {isGenerating ? "Generating..." : generatedCards.has(selectedCard || "") ? "Regenerate Card" : "Generate Card"}
               </Button>
             )}
           </div>
@@ -309,7 +299,7 @@ export function GenerationInterface({
                       />
                     </div>
                   ) : (
-                    <p 
+                    <p
                       className="text-sm font-sans text-muted-foreground cursor-pointer hover:bg-muted/30 p-2 rounded transition-colors"
                       onClick={() => setIsEditingPrompt(true)}
                     >

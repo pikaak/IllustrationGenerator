@@ -33,9 +33,10 @@ export default function Home() {
     },
     onSuccess: (data, { cardName }) => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      const isRegeneration = generatedCards.has(cardName);
       toast({
-        title: "Card Generated!",
-        description: `${cardName} has been successfully created.`,
+        title: isRegeneration ? "Card Regenerated!" : "Card Generated!",
+        description: `${cardName} has been successfully ${isRegeneration ? 'regenerated' : 'created'}.`,
       });
     },
     onError: (error: any) => {

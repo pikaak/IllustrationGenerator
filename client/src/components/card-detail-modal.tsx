@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, X } from "lucide-react";
+import { Download, X, Sparkles } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -15,9 +15,11 @@ interface CardDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   card: TarotCard;
+  isGenerating: boolean;
+  handleRegenerate: () => void;
 }
 
-export function CardDetailModal({ isOpen, onClose, card }: CardDetailModalProps) {
+export function CardDetailModal({ isOpen, onClose, card, isGenerating, handleRegenerate }: CardDetailModalProps) {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = card.imageUrl;
@@ -116,6 +118,16 @@ export function CardDetailModal({ isOpen, onClose, card }: CardDetailModalProps)
               >
                 <Download className="h-5 w-5" />
                 Download Card
+              </Button>
+              <Button
+                onClick={handleRegenerate}
+                variant="outline"
+                size="lg"
+                className="gap-2"
+                disabled={isGenerating}
+              >
+                <Sparkles className="h-5 w-5" />
+                {isGenerating ? "Regenerating..." : "Regenerate Card"}
               </Button>
               <Button
                 onClick={onClose}

@@ -31,12 +31,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Check if card already exists
       const existingCard = await storage.getTarotCardByName(cardName);
-      if (existingCard) {
-        return res.json(existingCard);
-      }
 
       // Generate image using Gemini AI
-      console.log(`Generating tarot card: ${cardName}`);
+      console.log(`${existingCard ? 'Regenerating' : 'Generating'} tarot card: ${cardName}`);
       const prompt = customPrompt || `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
       const base64Image = await generateTarotCardImage(cardName, prompt);
 
@@ -46,15 +43,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get card meanings if available
       const meanings = TAROT_MEANINGS[cardName] || {};
 
-      // Store in database
-      const card = await storage.createTarotCard({
-        name: cardName,
-        imageUrl,
-        prompt,
-        ...meanings,
-      });
+      let card;
+      if (existingCard) {
+        // Update existing card
+        card = await storage.updateTarotCard(existingCard.id, {
+          imageUrl,
+          prompt,
+          version: existingCard.version + 1,
+          ...meanings,
+        });
+        console.log(`Successfully regenerated: ${cardName} (version ${existingCard.version + 1})`);
+      } else {
+        // Create new card
+        card = await storage.createTarotCard({
+          name: cardName,
+          imageUrl,
+          prompt,
+          ...meanings,
+        });
+        console.log(`Successfully generated: ${cardName}`);
+      }
 
-      console.log(`Successfully generated: ${cardName}`);
       res.json(card);
     } catch (error: any) {
       console.error("Error generating card:", error);
