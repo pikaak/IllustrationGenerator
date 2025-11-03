@@ -179,10 +179,10 @@ export default function Home() {
         // Fetch the image as a blob
         const response = await fetch(card.imageUrl);
         const blob = await response.blob();
-        
+
         // Create a blob URL
         const blobUrl = URL.createObjectURL(blob);
-        
+
         // Create and click download link
         const link = document.createElement("a");
         link.href = blobUrl;
@@ -190,12 +190,12 @@ export default function Home() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         // Clean up blob URL
         setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
-        
+
         downloadedCount++;
-        
+
         // Small delay between downloads to avoid browser blocking
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (error) {

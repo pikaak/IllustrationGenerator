@@ -19,10 +19,13 @@ interface CardDetailModalProps {
 
 export function CardDetailModal({ isOpen, onClose, card }: CardDetailModalProps) {
   const handleDownload = () => {
+    const filename = card.imageUrl.split('/').pop();
     const link = document.createElement("a");
-    link.href = card.imageUrl;
+    link.href = `/api/download/${filename}`;
     link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
 
   return (

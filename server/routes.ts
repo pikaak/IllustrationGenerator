@@ -123,7 +123,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               const imageUrl = saveImageToFile(cardName, base64Image);
               // Use the updated prompt for Cat Tarot
               const prompt = `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
-              
+
               // Get card meanings if available
               const meanings = TAROT_MEANINGS[cardName] || {};
 
@@ -150,6 +150,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error starting batch generation:", error);
       res.status(500).json({ error: error.message || "Failed to start batch generation" });
+    }
+  });
+
+  // Download image endpoint
+  app.get("/api/download/:filename", async (req, res) => {
+    try {
+      const filename = req.params.filename;
+      const filepath = path.join(process.cwd(), "generated_images", filename); // Assuming IMAGES_DIR is generated_images
+
+      res.download(filepath, (err) => {
+        if (err) {
+          console.error("Error downloading file:", err);
+          res.status(404).json({ error: "File not found" });
+        }
+      });
+    } catch (error) {
+      console.error("Error in download endpoint:", error);
+      res.status(500).json({ error: "Failed to download file" });
     }
   });
 

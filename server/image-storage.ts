@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 
-const IMAGES_DIR = path.join(process.cwd(), "generated_images");
+export const IMAGES_DIR = path.join(process.cwd(), "generated_images");
 
 // Ensure images directory exists
 if (!fs.existsSync(IMAGES_DIR)) {
