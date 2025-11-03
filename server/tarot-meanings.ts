@@ -4,17 +4,17 @@ export const TAROT_MEANINGS: Record<string, {
   symbolism: string;
   keywords: string;
 }> = {
-  "The Fool": {
-    uprightMeaning: "The Fool represents new beginnings, innocence, and spontaneous adventure. He embodies unlimited potential and the courage to step into the unknown. This card signals a fresh start, trust in the journey, and freedom from convention. It encourages taking leaps of faith, embracing your authentic self, and following your heart despite uncertainty.",
-    reversedMeaning: "Reversed, The Fool may indicate recklessness, naivety, or poor judgment. There may be foolish risks, lack of planning, or refusing to take responsibility. This position suggests the need to think before acting, learn from past mistakes, and balance spontaneity with wisdom.",
-    symbolism: "A young figure stands at the edge of a cliff, carefree and gazing upward, with a small dog at their feet. The white rose represents purity, while the small bundle on a staff contains untapped potential. The sun shines brightly, symbolizing optimism and enlightenment. The cliff represents the leap into the unknown.",
-    keywords: "New Beginnings, Innocence, Adventure, Faith, Spontaneity, Freedom, Potential, Optimism, Risk"
+  "The Cat": {
+    uprightMeaning: "The Cat represents new beginnings, innocence, and spontaneous adventure. Like a kitten embarking on a new adventure, this card embodies unlimited potential and the courage to explore the unknown with feline grace and curiosity. It signals a fresh start, trust in your instincts, and freedom from convention.",
+    reversedMeaning: "Reversed, The Cat may indicate recklessness, scattered energy, or poor judgment. There may be impulsive risks without considering consequences, lack of focus, or refusing to learn from mistakes. This position suggests the need to pause and consider before pouncing, and balance spontaneity with wisdom.",
+    symbolism: "A mystical cat stands poised at the edge of new territory, alert and ready to explore. Its eyes gleam with curiosity and wisdom, while its tail is held high with confidence. The cat embodies both playful innocence and ancient knowing.",
+    keywords: "New Beginnings, Curiosity, Adventure, Instinct, Spontaneity, Freedom, Potential, Agility, Exploration"
   },
-  "The Magician": {
-    uprightMeaning: "The Magician represents manifestation, resourcefulness, and the power to create reality. He shows mastery over the elements and the ability to channel divine energy into material form. This card signals a time of action, utilizing skills and resources to achieve goals. It encourages taking initiative, focusing willpower, and recognizing your creative power.",
-    reversedMeaning: "Reversed, The Magician may indicate manipulation, trickery, or misuse of power. There may be untapped potential, lack of focus, or using skills for selfish purposes. This position suggests examining intentions, developing dormant talents, and avoiding deception or shortcuts.",
-    symbolism: "The Magician stands before a table holding the symbols of the four suits (wand, cup, sword, pentacle), representing the elements. One hand points to the heavens, the other to earth, showing 'as above, so below.' The infinity symbol above his head indicates unlimited potential. Roses and lilies grow around him, representing passion and purity.",
-    keywords: "Manifestation, Power, Action, Resourcefulness, Skill, Focus, Willpower, Creation, Initiative"
+  "Magical Cat": {
+    uprightMeaning: "Magical Cat represents manifestation, mystical power, and the ability to create reality through feline enchantment. A cat with all the tools for creation and manifestation, this card shows mastery over the elements and supernatural forces. It signals a time of magical action and recognizing your creative power.",
+    reversedMeaning: "Reversed, Magical Cat may indicate misuse of power, manipulation, or blocked magical energy. There may be untapped mystical potential, lack of focus in spell work, or using gifts for selfish purposes. This position suggests examining your intentions and reconnecting with your magical source.",
+    symbolism: "A magical cat sits surrounded by mystical tools and symbols, its eyes glowing with otherworldly power. Ancient runes and magical implements float around it, representing mastery over the elements and supernatural forces.",
+    keywords: "Manifestation, Magic, Power, Mysticism, Skill, Focus, Enchantment, Creation, Supernatural Ability"
   },
   "The High Priestess": {
     uprightMeaning: "The High Priestess represents intuition, sacred knowledge, and the unconscious mind. She sits between light and dark, conscious and unconscious, serving as guardian of hidden mysteries. This card signals a time to trust inner wisdom, explore spirituality, and pay attention to dreams and symbols. It encourages listening to intuition and honoring the sacred feminine.",
@@ -52,11 +52,11 @@ export const TAROT_MEANINGS: Record<string, {
     symbolism: "The Emperor sits on a stone throne adorned with ram heads, symbolizing his connection to Aries and assertive action. He holds an ankh and orb, representing life and worldly power. The barren mountains behind him show his dominion over the material realm, while his armor beneath his robes indicates preparedness for battle.",
     keywords: "Authority, Structure, Control, Leadership, Father Figure, Stability, Power, Logic, Protection"
   },
-  "The Hierophant": {
-    uprightMeaning: "The Hierophant represents spiritual wisdom, tradition, and conventional values. He serves as a bridge between the divine and humanity, offering guidance through established teachings and moral structures. This card indicates education, mentorship, or seeking counsel from trusted sources. It encourages honoring tradition while finding your own spiritual path.",
-    reversedMeaning: "Reversed, The Hierophant suggests challenging dogma, breaking from tradition, or questioning authority. There may be feelings of restriction by conventional beliefs or institutional rules. This position calls for independent thinking, developing personal spiritual beliefs, and breaking free from limiting traditions that no longer serve you.",
-    symbolism: "The Hierophant sits between two pillars, raising his right hand in blessing while holding a triple cross. Two acolytes kneel before him, representing the transmission of sacred knowledge. The crossed keys at his feet symbolize access to spiritual mysteries and the balance between the conscious and subconscious realms.",
-    keywords: "Tradition, Spirituality, Conformity, Education, Religion, Belief Systems, Guidance, Institutions, Mentor"
+  "The Priest": {
+    uprightMeaning: "The Priest represents spiritual wisdom, tradition, and sacred knowledge. As the spiritual guide and keeper of tradition in the feline realm, this card offers guidance through established teachings and mystical wisdom. It indicates education, mentorship, or seeking counsel from wise sources. It encourages honoring tradition while finding your own spiritual path.",
+    reversedMeaning: "Reversed, The Priest suggests challenging dogma, breaking from tradition, or questioning authority. There may be feelings of restriction by conventional beliefs or rigid rules. This position calls for independent thinking, developing personal spiritual beliefs, and breaking free from limiting traditions.",
+    symbolism: "A wise cat sits in a position of spiritual authority, surrounded by ancient symbols and sacred texts. The Priest embodies the role of spiritual guide and keeper of mystical feline traditions.",
+    keywords: "Tradition, Spirituality, Guidance, Education, Wisdom, Belief Systems, Mentor, Sacred Knowledge, Teacher"
   },
   "The Chariot": {
     uprightMeaning: "The Chariot represents victory through determination, willpower, and focused action. It signifies triumph over obstacles through self-discipline and confidence. This card indicates a time of forward momentum, control over conflicting forces, and successful completion of challenging journeys. It encourages harnessing opposing energies and maintaining clear direction.",
@@ -76,23 +76,23 @@ export const TAROT_MEANINGS: Record<string, {
     symbolism: "An old man stands on a mountain peak, holding aloft a lantern containing a six-pointed star (the Seal of Solomon). His grey robes represent wisdom earned through experience. The staff in his other hand symbolizes authority and support. The snowy peak represents the heights of spiritual attainment reached through solitary pursuit.",
     keywords: "Introspection, Solitude, Inner Guidance, Wisdom, Contemplation, Soul-searching, Enlightenment, Withdrawal, Meditation"
   },
-  "Wheel of Fortune": {
-    uprightMeaning: "The Wheel of Fortune represents cycles, destiny, and the inevitable changes of life. It signifies good luck, opportunities, and turning points that arise from universal forces beyond our control. This card indicates that change is coming, for better or worse. It encourages accepting life's ups and downs, recognizing patterns, and understanding that nothing is permanent.",
-    reversedMeaning: "Reversed, the Wheel may indicate bad luck, resistance to change, or breaking cycles. There may be setbacks, feeling out of control, or experiencing the downside of life's fluctuations. This position calls for accepting inevitable changes, learning from past patterns, and understanding that even downturns are temporary parts of life's cycles.",
-    symbolism: "A wheel turns in the sky, surrounded by four winged creatures representing the fixed signs of the zodiac. The wheel bears alchemical and astrological symbols, with a sphinx at the top, Anubis ascending, and a serpent descending. The constant motion symbolizes the eternal cycles of birth, death, and rebirth.",
-    keywords: "Cycles, Destiny, Change, Luck, Karma, Fate, Turning Point, Opportunity, Movement, Life Cycles"
+  "The Wheel": {
+    uprightMeaning: "The Wheel represents the turning of fate and the cycles of life. It signifies destiny, opportunities, and turning points that arise from universal forces. This card indicates that change is coming, for better or worse. It encourages accepting life's ups and downs, recognizing patterns, and understanding that nothing is permanent.",
+    reversedMeaning: "Reversed, The Wheel may indicate resistance to change or breaking cycles. There may be setbacks, feeling out of control, or experiencing challenging fluctuations. This position calls for accepting inevitable changes, learning from past patterns, and understanding that even difficult times are temporary.",
+    symbolism: "A mystical wheel turns endlessly, bearing cats and symbols representing the eternal cycles. The constant motion symbolizes the turning of fate and the inevitable changes that shape our lives.",
+    keywords: "Cycles, Destiny, Change, Fate, Turning Point, Opportunity, Movement, Life Cycles, Fortune"
   },
-  "Justice": {
-    uprightMeaning: "Justice represents fairness, truth, and the consequences of actions. She embodies the law of cause and effect, ensuring that all receive what they deserve. This card indicates legal matters, important decisions, and the need for objective judgment. It encourages honesty, accountability, and making choices based on fairness and truth.",
-    reversedMeaning: "Reversed, Justice may indicate unfairness, dishonesty, or avoidance of accountability. There may be legal issues, biased judgment, or inability to see both sides of a situation. This position suggests examining personal biases, taking responsibility for actions, and addressing situations where fairness has been compromised.",
-    symbolism: "Justice sits between two pillars, holding a sword pointing upward in her right hand and balanced scales in her left. Her square crown represents ordered thoughts, while the purple cloak signifies compassion. The sword represents intellect cutting through deception, and the scales symbolize weighing evidence to reach fair judgments.",
-    keywords: "Fairness, Truth, Law, Karma, Accountability, Balance, Integrity, Consequences, Objectivity, Ethics"
+  "Consequences": {
+    uprightMeaning: "Consequences represents karma, cause and effect, and fairness. This card embodies the universal law that actions have results, ensuring balance in all things. It indicates accountability, important decisions, and the need for objective judgment. It encourages honesty, taking responsibility, and understanding that every action creates ripples.",
+    reversedMeaning: "Reversed, Consequences may indicate avoidance of accountability, unfairness, or refusing to accept the results of past actions. There may be biased judgment or inability to see the full picture. This position suggests examining personal responsibility and addressing situations where balance needs to be restored.",
+    symbolism: "A knowing cat sits in judgment, surrounded by symbols of balance and karma. The imagery emphasizes the inevitable connection between actions and their outcomes, showing how cause and effect govern all things.",
+    keywords: "Karma, Cause and Effect, Fairness, Accountability, Balance, Truth, Responsibility, Justice, Ethics"
   },
-  "The Hanged Man": {
-    uprightMeaning: "The Hanged Man represents surrender, letting go, and seeing things from a new perspective. He signifies voluntary sacrifice for greater wisdom, suspension between worlds, and the paradox of gaining by giving up. This card indicates a time of pause, self-sacrifice, and spiritual insight gained through surrender. It encourages releasing control and embracing different viewpoints.",
-    reversedMeaning: "Reversed, The Hanged Man may indicate resistance to necessary sacrifice, stalling, or feeling stuck. There may be unwillingness to let go, missed opportunities for growth, or martyrdom without purpose. This position calls for releasing what holds you back, breaking free from indecision, and moving forward from suspended states.",
-    symbolism: "A man hangs upside-down from a living tree, his right foot bound while his left leg crosses behind. A halo surrounds his head, indicating enlightenment through sacrifice. His hands are behind his back, forming an inverted triangle, while his legs form a cross. Despite his position, his face is serene, showing willing surrender.",
-    keywords: "Surrender, Letting Go, New Perspective, Sacrifice, Suspension, Patience, Release, Wisdom, Transition"
+  "The Floating Cat": {
+    uprightMeaning: "The Floating Cat represents seeing things from a different perspective, surrender, and letting go. A cat suspended in a unique viewpoint, this card signifies voluntary pause for greater wisdom and the paradox of gaining insight through stillness. It indicates a time to see things differently, embrace patience, and find wisdom through alternative perspectives.",
+    reversedMeaning: "Reversed, The Floating Cat may indicate resistance to seeing things differently, stubbornness, or feeling stuck. There may be unwillingness to consider new viewpoints, missed opportunities for insight, or clinging to old ways of thinking. This position calls for opening your mind and shifting your perspective.",
+    symbolism: "A mystical cat floats or hangs in an unusual position, seeing the world from an entirely different angle. The serene expression shows willing acceptance of this unique viewpoint, demonstrating how changing perspective reveals hidden truths.",
+    keywords: "New Perspective, Surrender, Letting Go, Pause, Different Viewpoint, Patience, Wisdom, Suspension, Insight"
   },
   "Death": {
     uprightMeaning: "Death represents transformation, endings, and new beginnings. Despite its ominous name, this card rarely predicts physical death but rather the death of old patterns, relationships, or ways of being. It signifies necessary endings that clear the way for renewal. This card encourages embracing change, releasing the past, and welcoming transformation.",
@@ -100,17 +100,17 @@ export const TAROT_MEANINGS: Record<string, {
     symbolism: "A skeletal figure in black armor rides a white horse, carrying a black flag with a white rose. Before the horse lie bodies representing all levels of society, showing death's universality. A rising sun appears between two towers in the background, symbolizing that endings lead to new dawns. The white rose represents beauty and purification.",
     keywords: "Transformation, Endings, New Beginnings, Release, Transition, Regeneration, Change, Rebirth, Closure"
   },
-  "Temperance": {
-    uprightMeaning: "Temperance represents balance, moderation, and harmonious blending of opposites. An angel pours water between two cups, showing the flow and mixing of energies. This card signifies patience, purposeful action, and finding the middle path. It encourages taking a balanced approach, practicing self-control, and creating harmony through measured responses.",
-    reversedMeaning: "Reversed, Temperance may indicate imbalance, excess, or lack of moderation. There may be extremism, impatience, or inability to find middle ground. This position calls for restoring balance, practicing moderation, and addressing areas where life has become too extreme in one direction or another.",
-    symbolism: "An angel stands with one foot on land and one in water, showing balance between material and emotional realms. They pour water between two cups, representing the alchemical process of combining opposites. A path leads to mountains with a glowing crown, symbolizing the higher purpose achieved through patience and balance.",
-    keywords: "Balance, Moderation, Patience, Harmony, Purpose, Alchemy, Middle Path, Self-control, Blending"
+  "Grace": {
+    uprightMeaning: "Grace represents balance, moderation, and harmony. This card signifies the elegant flow between opposites, patience, and the beauty of measured movement. Like a cat's natural poise, Grace encourages taking a balanced approach, practicing self-control, and creating harmony through gentle, purposeful actions.",
+    reversedMeaning: "Reversed, Grace may indicate imbalance, clumsiness, or lack of moderation. There may be extremism, impatience, or inability to find equilibrium. This position calls for restoring balance, practicing moderation, and reclaiming your natural poise and harmony.",
+    symbolism: "A graceful cat embodies perfect balance and elegant movement, demonstrating the harmony that comes from moderation. The imagery shows the natural poise and measured grace that cats possess, symbolizing balance in all things.",
+    keywords: "Balance, Moderation, Harmony, Patience, Poise, Elegance, Middle Path, Self-control, Flow"
   },
-  "The Devil": {
-    uprightMeaning: "The Devil represents bondage to material desires, unhealthy attachments, and self-imposed limitations. He shows how we chain ourselves through addiction, toxic relationships, or limiting beliefs. This card indicates shadow aspects, temptation, and patterns that keep us trapped. It encourages recognizing self-destructive behaviors and reclaiming personal power.",
-    reversedMeaning: "Reversed, The Devil suggests breaking free from bondage, releasing unhealthy attachments, or overcoming addiction. There may be awareness of toxic patterns, detachment from materialism, or reclaiming independence. This position indicates the power to break chains, though it requires acknowledgment of the role we play in our own imprisonment.",
-    symbolism: "A horned devil figure presides over two naked humans chained to a pedestal. However, the chains are loose, showing bondage is self-imposed. The inverted pentagram above the devil's head represents spirit trapped by matter. The torch he holds casts an illusion, and the couple's tails show they're taking on bestial qualities through base desires.",
-    keywords: "Bondage, Addiction, Materialism, Temptation, Restriction, Shadow Self, Attachment, Control, Limitation"
+  "The Demon Cat": {
+    uprightMeaning: "The Demon Cat represents addiction, restriction, and negative thoughts. This card shows bondage to unhealthy patterns, self-imposed limitations, and shadow aspects of the feline nature. It indicates temptation, toxic patterns, and behaviors that keep us trapped. It encourages recognizing self-destructive tendencies and reclaiming personal power.",
+    reversedMeaning: "Reversed, The Demon Cat suggests breaking free from bondage, releasing unhealthy attachments, or overcoming negative patterns. There may be awareness of toxic behaviors, freedom from restriction, or reclaiming independence. This position indicates the power to break free from self-imposed chains.",
+    symbolism: "A dark, shadowy cat embodies the negative aspects and temptations that can trap us. The imagery shows self-imposed bondage and the shadow side of feline nature, reminding us that we hold the key to our own freedom.",
+    keywords: "Addiction, Restriction, Negative Thoughts, Bondage, Temptation, Shadow Self, Attachment, Limitation, Trapped"
   },
   "The Tower": {
     uprightMeaning: "The Tower represents sudden upheaval, revelation, and the destruction of false foundations. Lightning strikes a tower, destroying illusions and false structures. This card signifies dramatic change, shocking revelations, and necessary destruction that clears the way for truth. It encourages accepting chaos as part of growth and rebuilding on solid ground.",
@@ -118,17 +118,17 @@ export const TAROT_MEANINGS: Record<string, {
     symbolism: "A tall tower built on a mountain is struck by lightning, with its crown blown off and two figures falling from it. The lightning represents sudden divine intervention or revelation. The falling figures show the descent from false heights to solid ground. The mountain represents ambitious ego structures built on shaky foundations.",
     keywords: "Upheaval, Sudden Change, Revelation, Destruction, Chaos, Awakening, Breakthrough, Liberation, Crisis"
   },
-  "The Star": {
-    uprightMeaning: "The Star represents hope, inspiration, and renewed faith after darkness. A naked woman pours water onto land and into a pool, representing the flow of the subconscious and replenishment of life. This card signifies healing, optimism, and spiritual connection. It encourages maintaining faith, trusting in the universe, and staying true to your highest self.",
-    reversedMeaning: "Reversed, The Star may indicate loss of faith, despair, or disconnection from purpose. There may be pessimism, feeling uninspired, or losing sight of dreams. This position calls for reconnecting with hope, restoring faith in yourself and the universe, and finding the light even in dark times.",
-    symbolism: "A naked woman kneels by a pool under a night sky filled with eight stars. She pours water from two jugs, one onto land (consciousness) and one into water (subconscious). A bird perches in a tree behind her, symbolizing sacred ibis of thought. The large central star represents renewed hope after The Tower's destruction.",
-    keywords: "Hope, Inspiration, Faith, Renewal, Healing, Optimism, Serenity, Purpose, Spirituality, Guidance"
+  "The Stars": {
+    uprightMeaning: "The Stars represent hope, inspiration, and renewal. Multiple stars shine in the night sky, symbolizing guidance, dreams, and the light that guides us through darkness. This card signifies healing, optimism, and spiritual connection. It encourages maintaining faith, trusting in the universe's guidance, and staying true to your dreams.",
+    reversedMeaning: "Reversed, The Stars may indicate loss of hope, despair, or disconnection from dreams. There may be pessimism, feeling uninspired, or losing sight of guidance. This position calls for reconnecting with hope, restoring faith, and finding the light that guides you.",
+    symbolism: "Stars shine brilliantly in the night sky, offering guidance and hope. Cats have long been associated with celestial navigation and the mysteries of the night, making them natural companions to the stars' wisdom.",
+    keywords: "Hope, Inspiration, Renewal, Guidance, Dreams, Optimism, Faith, Healing, Spirituality, Light"
   },
-  "Judgement": {
-    uprightMeaning: "Judgement represents awakening, renewal, and answering a higher calling. An angel sounds a trumpet, calling the dead to rise, symbolizing resurrection and rebirth. This card signifies major life review, absolution, and making decisions based on past lessons. It encourages self-evaluation, forgiving yourself and others, and embracing transformation.",
-    reversedMeaning: "Reversed, Judgement may indicate self-doubt, harsh self-criticism, or refusal to learn from the past. There may be avoiding necessary self-reflection, resisting calling, or inability to forgive. This position suggests releasing self-judgment, accepting past mistakes as lessons, and heeding the call to higher consciousness.",
-    symbolism: "Archangel Gabriel blows a trumpet bearing a cross, calling souls to rise from their graves. The naked figures rising with arms outstretched represent rebirth and renewal of consciousness. Mountains in the background symbolize insurmountable obstacles now overcome. The gray sky represents the threshold between life and death, past and future.",
-    keywords: "Judgement, Rebirth, Awakening, Reflection, Absolution, Inner Calling, Evaluation, Renewal, Decision"
+  "Good Kitty": {
+    uprightMeaning: "Good Kitty represents a new awareness, a call to action, and recognition of growth. A playful twist on transformation, this card signifies answering your calling, embracing positive change, and being rewarded for your journey. It encourages self-evaluation, celebrating progress, and stepping into a new version of yourself with confidence.",
+    reversedMeaning: "Reversed, Good Kitty may indicate self-doubt, harsh self-criticism, or refusing to acknowledge growth. There may be avoiding necessary self-reflection, resisting your calling, or difficulty accepting praise. This position suggests being kinder to yourself and recognizing how far you've come.",
+    symbolism: "A cat receives recognition, praise, or acknowledgment, representing the rewards that come from growth and answering your true calling. The playful imagery reminds us that transformation can be joyful.",
+    keywords: "Awakening, Recognition, New Awareness, Call to Action, Growth, Transformation, Renewal, Praise, Evolution"
   },
   "The World": {
     uprightMeaning: "The World represents completion, achievement, and cosmic consciousness. A dancing figure is surrounded by a laurel wreath, symbolizing victory and success. This card signifies the end of a cycle, integration of lessons, and sense of wholeness. It encourages celebrating achievements, embracing new cycles, and recognizing your place in the cosmic dance.",
