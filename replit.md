@@ -29,8 +29,10 @@ Preferred communication style: Simple, everyday language.
 
 **Key Design Patterns**:
 - Component composition with separate concerns (hero section, generation interface, gallery, modals)
+- Collapsible customization panel with Select dropdowns for style, color palette, and border pattern
 - Custom hooks for mobile detection and toast notifications
 - Responsive design with mobile-first approach using Tailwind breakpoints
+- Modal displays scrollable card meanings (keywords, upright/reversed interpretations, symbolism)
 
 ### Backend Architecture
 
@@ -41,11 +43,16 @@ Preferred communication style: Simple, everyday language.
 - `POST /api/generate` - Generates a single tarot card or batch of cards
 
 **Data Storage Strategy**: Dual-layer approach:
-- In-memory storage (MemStorage class) for card metadata (name, image URL, prompt, generation timestamp)
-- Filesystem storage for generated image files in `generated_images/` directory
+- **PostgreSQL database** (via Drizzle ORM and Neon serverless) for card metadata including:
+  - Card identification (id, name)
+  - Generated assets (image_url, prompt, generated_at)
+  - Customization settings (style, color_palette, border_pattern)
+  - Card meanings (upright_meaning, reversed_meaning, symbolism, keywords)
+  - Version tracking (version number, is_custom flag)
+- **Filesystem storage** for generated image files in `generated_images/` directory
 - Images are base64-decoded and saved with MD5-hashed filenames following pattern: `The_[CardName]_tarot_card_[hash].png`
 
-**Rationale**: In-memory storage chosen for simplicity and fast access. The application includes infrastructure for PostgreSQL via Drizzle ORM (schema defined, Neon serverless driver included), suggesting future migration path to persistent database storage.
+**Rationale**: PostgreSQL provides persistent storage across sessions, enables version history tracking, and supports future features like user accounts and card collections.
 
 **Development vs Production**: Vite middleware integration in development mode with SSR template serving. Production builds serve static assets from `dist/public`.
 
@@ -55,7 +62,13 @@ Preferred communication style: Simple, everyday language.
 
 **Model**: `gemini-2.5-flash-image` for multimodal content generation (text + image output)
 
-**Prompt Engineering**: Fixed template for consistent styling: "Mystical cat-themed tarot card illustrations for {cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio"
+**Prompt Engineering**: Dynamic template incorporating user customization choices:
+- Base: "Cat tarot card illustrations for {cardName}"
+- Customizable parameters:
+  - **Style**: mystical (default), realistic, artistic, watercolor, vintage
+  - **Color Palette**: vibrant (default), muted, monochrome, pastel, cosmic
+  - **Border Pattern**: ornate (default), simple, geometric, floral, celestial
+- Example: "Cat tarot card illustrations for The Fool, floral vine border, soft watercolor technique, soft pastel colors, 2:3 aspect ratio"
 
 **Reliability Mechanisms**:
 - Rate limit detection and retry logic using `p-retry` library
