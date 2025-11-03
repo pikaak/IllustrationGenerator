@@ -49,8 +49,8 @@ export function Footer() {
               Powered By
             </h4>
             <p className="text-sm text-muted-foreground">
-              AI image generation via Gemini<br />
-              16 Major Arcana interpretations
+              Curioft<br />
+              22 Major Arcana interpretations
             </p>
           </div>
         </div>
