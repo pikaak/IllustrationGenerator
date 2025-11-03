@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { type TarotCardName, type TarotCard } from "@shared/schema";
 import { HeroSection } from "@/components/hero-section";
@@ -13,11 +13,34 @@ export default function Home() {
   const [selectedCard, setSelectedCard] = useState<TarotCardName | null>(null);
   const [modalCard, setModalCard] = useState<TarotCard | null>(null);
   const { toast } = useToast();
+  const [isBatchGenerating, setIsBatchGenerating] = useState(false);
+  const [generatedCount, setGeneratedCount] = useState(0);
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch all generated cards
-  const { data: cardsArray } = useQuery<TarotCard[]>({
+  const { data: cardsArray, isLoading: isCardsLoading } = useQuery<TarotCard[]>({
     queryKey: ["/api/cards"],
-    refetchInterval: 5000, // Poll every 5 seconds during batch generation
+    refetchInterval: isBatchGenerating ? 1000 : false, // Poll faster during batch generation
+    enabled: !isBatchGenerating || cardsArray === undefined, // Only fetch if not batch generating or if data is not yet available
+    onSuccess: (data) => {
+      if (isBatchGenerating) {
+        const currentCount = data.length;
+        setGeneratedCount(currentCount);
+        if (currentCount === 22) {
+          setIsBatchGenerating(false);
+          setGeneratedCount(0);
+          queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+          toast({
+            title: "Batch Generation Complete!",
+            description: "All 22 tarot cards have been generated.",
+          });
+          if (pollingIntervalRef.current) {
+            clearInterval(pollingIntervalRef.current);
+            pollingIntervalRef.current = null;
+          }
+        }
+      }
+    },
   });
 
   // Convert array to Map for easier lookup (by name -> full card object)
@@ -55,11 +78,16 @@ export default function Home() {
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      setIsBatchGenerating(true);
+      setGeneratedCount(0); // Reset count at the start of batch generation
       toast({
         title: "Batch Generation Started!",
         description: "Generating all 22 tarot cards. This may take a few minutes.",
       });
+      // Start polling more frequently
+      pollingIntervalRef.current = setInterval(() => {
+        queryClient.fetchQuery({ queryKey: ["/api/cards"] });
+      }, 1000);
     },
     onError: (error: any) => {
       toast({
@@ -103,7 +131,7 @@ export default function Home() {
 
   const handleClearAll = async () => {
     if (generatedCards.size === 0) return;
-    
+
     if (confirm(`Are you sure you want to delete all ${generatedCards.size} generated cards? This action cannot be undone.`)) {
       await clearAllMutation.mutateAsync();
     }
@@ -137,7 +165,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <HeroSection onGenerateClick={scrollToGenerate} />
-      
+
       <GenerationInterface
         onGenerateCard={handleGenerateCard}
         onGenerateAll={handleGenerateAll}
@@ -146,6 +174,8 @@ export default function Home() {
         setSelectedCard={setSelectedCard}
         isGenerating={isGenerating}
         generatedCards={generatedCards}
+        isBatchGenerating={isBatchGenerating}
+        generatedCount={generatedCount}
       />
 
       <GallerySection

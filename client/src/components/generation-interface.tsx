@@ -103,7 +103,7 @@ export function GenerationInterface({
                   className="gap-2"
                   data-testid="button-generate-all"
                 >
-                  {isGenerating ? (
+                  {isGenerating && generatedCards.size < TAROT_CARDS.length ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <Sparkles className="h-4 w-4" />
@@ -124,6 +124,29 @@ export function GenerationInterface({
                 )}
               </div>
             </div>
+
+            {/* Batch Generation Progress */}
+            {isGenerating && generatedCards.size < TAROT_CARDS.length && (
+              <Card className="p-4 bg-primary/5 border-primary/20">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium">Generating Cards...</span>
+                    <span className="text-muted-foreground">
+                      {generatedCards.size} / {TAROT_CARDS.length}
+                    </span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                    <div
+                      className="bg-primary h-full transition-all duration-500 ease-out"
+                      style={{ width: `${(generatedCards.size / TAROT_CARDS.length) * 100}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground italic">
+                    This may take a few minutes. Cards will appear as they're generated.
+                  </p>
+                </div>
+              </Card>
+            )}
 
             {/* Card Grid */}
             <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
