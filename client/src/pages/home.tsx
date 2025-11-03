@@ -21,27 +21,28 @@ export default function Home() {
   const { data: cardsArray, isLoading: isCardsLoading } = useQuery<TarotCard[]>({
     queryKey: ["/api/cards"],
     refetchInterval: isBatchGenerating ? 1000 : false, // Poll faster during batch generation
-    enabled: !isBatchGenerating || cardsArray === undefined, // Only fetch if not batch generating or if data is not yet available
-    onSuccess: (data) => {
-      if (isBatchGenerating) {
-        const currentCount = data.length;
-        setGeneratedCount(currentCount);
-        if (currentCount === 22) {
-          setIsBatchGenerating(false);
-          setGeneratedCount(0);
-          queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-          toast({
-            title: "Batch Generation Complete!",
-            description: "All 22 tarot cards have been generated.",
-          });
-          if (pollingIntervalRef.current) {
-            clearInterval(pollingIntervalRef.current);
-            pollingIntervalRef.current = null;
-          }
+  });
+
+  // Update generated count when data changes during batch generation
+  useEffect(() => {
+    if (isBatchGenerating && cardsArray) {
+      const currentCount = cardsArray.length;
+      setGeneratedCount(currentCount);
+      if (currentCount === 22) {
+        setIsBatchGenerating(false);
+        setGeneratedCount(0);
+        queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+        toast({
+          title: "Batch Generation Complete!",
+          description: "All 22 tarot cards have been generated.",
+        });
+        if (pollingIntervalRef.current) {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
         }
       }
-    },
-  });
+    }
+  }, [cardsArray, isBatchGenerating, toast]);
 
   // Convert array to Map for easier lookup (by name -> full card object)
   const generatedCards = new Map(
