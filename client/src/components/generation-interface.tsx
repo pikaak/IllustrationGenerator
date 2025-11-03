@@ -79,8 +79,8 @@ export function GenerationInterface({
     const borderDesc = borderDescriptions[borderPattern] || "ornate border";
 
     return selectedCard
-      ? `An Cat tarot card illustration for ${selectedCard}, simple white border, mystical atmosphere, in Renoir style 2:3 aspect ratio, Garamond font.`
-      : `An Cat tarot card illustration, simple white border, mystical atmosphere, in Renoir style 2:3 aspect ratio, Garamond font.`;
+      ? `An Cat tarot card illustration for ${selectedCard}, simple white border, mystical atmosphere, in Renoir style 2:3 aspect ratio, Garamond font. Card number at the top, card name at the bottom.`
+      : `An Cat tarot card illustration, simple white border, mystical atmosphere, in Renoir style 2:3 aspect ratio, Garamond font. Card number at the top, card name at the bottom.`;
   };
 
   return (

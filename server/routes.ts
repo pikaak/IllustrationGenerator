@@ -34,7 +34,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Generate image using Gemini AI
       console.log(`${existingCard ? 'Regenerating' : 'Generating'} tarot card: ${cardName}`);
-      const prompt = customPrompt || `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
+      const prompt = customPrompt || `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio. Card number at the top, card name at the bottom.`;
       const base64Image = await generateTarotCardImage(cardName, prompt);
 
       // Save image to file
