@@ -165,21 +165,47 @@ export default function Home() {
     }
   };
 
-  const handleDownloadAll = () => {
+  const handleDownloadAll = async () => {
     if (!generatedCards || generatedCards.size === 0) return;
-
-    generatedCards.forEach((card) => {
-      setTimeout(() => {
-        const link = document.createElement("a");
-        link.href = card.imageUrl;
-        link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
-        link.click();
-      }, 100);
-    });
 
     toast({
       title: "Downloading Cards",
-      description: `Downloading ${generatedCards.size} tarot cards...`,
+      description: `Starting download of ${generatedCards.size} tarot cards...`,
+    });
+
+    let downloadedCount = 0;
+    for (const card of generatedCards.values()) {
+      try {
+        // Fetch the image as a blob
+        const response = await fetch(card.imageUrl);
+        const blob = await response.blob();
+        
+        // Create a blob URL
+        const blobUrl = URL.createObjectURL(blob);
+        
+        // Create and click download link
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up blob URL
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+        
+        downloadedCount++;
+        
+        // Small delay between downloads to avoid browser blocking
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (error) {
+        console.error(`Failed to download ${card.name}:`, error);
+      }
+    }
+
+    toast({
+      title: "Download Complete",
+      description: `Successfully downloaded ${downloadedCount} of ${generatedCards.size} cards.`,
     });
   };
 
