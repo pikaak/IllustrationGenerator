@@ -70,12 +70,43 @@ export default function Home() {
     },
   });
 
+  // Clear all cards mutation
+  const clearAllMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("DELETE", "/api/cards", {});
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      setSelectedCard(null);
+      toast({
+        title: "Cards Cleared!",
+        description: "All generated cards have been deleted.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Clear Failed",
+        description: error.message || "Failed to clear cards. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleGenerateCard = async (cardName: TarotCardName, customPrompt?: string) => {
     await generateCardMutation.mutateAsync({ cardName, customPrompt });
   };
 
   const handleGenerateAll = async () => {
     await generateAllMutation.mutateAsync();
+  };
+
+  const handleClearAll = async () => {
+    if (generatedCards.size === 0) return;
+    
+    if (confirm(`Are you sure you want to delete all ${generatedCards.size} generated cards? This action cannot be undone.`)) {
+      await clearAllMutation.mutateAsync();
+    }
   };
 
   const handleDownloadAll = () => {
@@ -110,6 +141,7 @@ export default function Home() {
       <GenerationInterface
         onGenerateCard={handleGenerateCard}
         onGenerateAll={handleGenerateAll}
+        onClearAll={handleClearAll}
         selectedCard={selectedCard}
         setSelectedCard={setSelectedCard}
         isGenerating={isGenerating}

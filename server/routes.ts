@@ -71,6 +71,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // DELETE /api/cards - Delete all generated cards
+  app.delete("/api/cards", async (req, res) => {
+    try {
+      await storage.deleteAllTarotCards();
+      console.log("All tarot cards deleted");
+      res.json({ message: "All cards deleted successfully" });
+    } catch (error: any) {
+      console.error("Error deleting cards:", error);
+      res.status(500).json({ error: error.message || "Failed to delete cards" });
+    }
+  });
+
   // POST /api/generate-all - Generate all 22 tarot cards in batch
   app.post("/api/generate-all", async (req, res) => {
     try {

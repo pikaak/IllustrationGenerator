@@ -3,7 +3,7 @@ import { TAROT_CARDS, type TarotCardName, type TarotCard, cardStyles, colorPalet
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Download, Loader2, Settings2, Wand2 } from "lucide-react";
+import { Sparkles, Download, Loader2, Settings2, Wand2, Trash2 } from "lucide-react";
 import { MysticalSpinner } from "./loading-spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -18,6 +18,7 @@ import {
 interface GenerationInterfaceProps {
   onGenerateCard: (cardName: TarotCardName, customPrompt?: string) => Promise<void>;
   onGenerateAll: () => Promise<void>;
+  onClearAll: () => Promise<void>;
   selectedCard: TarotCardName | null;
   setSelectedCard: (card: TarotCardName | null) => void;
   isGenerating: boolean;
@@ -27,6 +28,7 @@ interface GenerationInterfaceProps {
 export function GenerationInterface({
   onGenerateCard,
   onGenerateAll,
+  onClearAll,
   selectedCard,
   setSelectedCard,
   isGenerating,
@@ -93,20 +95,34 @@ export function GenerationInterface({
           <div className="space-y-6">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <h3 className="font-display text-2xl font-medium">Select a Card</h3>
-              <Button
-                onClick={onGenerateAll}
-                disabled={isGenerating}
-                variant="outline"
-                className="gap-2"
-                data-testid="button-generate-all"
-              >
-                {isGenerating ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Sparkles className="h-4 w-4" />
+              <div className="flex gap-2">
+                <Button
+                  onClick={onGenerateAll}
+                  disabled={isGenerating}
+                  variant="outline"
+                  className="gap-2"
+                  data-testid="button-generate-all"
+                >
+                  {isGenerating ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="h-4 w-4" />
+                  )}
+                  Generate All 22 Cards
+                </Button>
+                {generatedCards.size > 0 && (
+                  <Button
+                    onClick={onClearAll}
+                    disabled={isGenerating}
+                    variant="outline"
+                    className="gap-2"
+                    data-testid="button-clear-all"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Clear All
+                  </Button>
                 )}
-                Generate All 22 Cards
-              </Button>
+              </div>
             </div>
 
             {/* Card Grid */}

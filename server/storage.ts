@@ -11,6 +11,7 @@ export interface IStorage {
   createTarotCard(card: InsertTarotCard): Promise<TarotCard>;
   updateTarotCard(id: string, card: Partial<InsertTarotCard>): Promise<TarotCard | undefined>;
   deleteTarotCard(id: string): Promise<boolean>;
+  deleteAllTarotCards(): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -48,6 +49,10 @@ export class DatabaseStorage implements IStorage {
   async deleteTarotCard(id: string): Promise<boolean> {
     const result = await db.delete(tarotCards).where(eq(tarotCards.id, id));
     return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async deleteAllTarotCards(): Promise<void> {
+    await db.delete(tarotCards);
   }
 }
 
