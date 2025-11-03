@@ -127,16 +127,6 @@ export default function Home() {
           isOpen={true}
           onClose={() => setModalCard(null)}
           card={modalCard}
-          isGenerating={isGenerating}
-          handleRegenerate={async () => {
-            await handleGenerateCard(modalCard.name as TarotCardName);
-            // Refresh the modal card data after regeneration
-            const updatedCards = await queryClient.fetchQuery({ queryKey: ["/api/cards"] });
-            const updatedCard = (updatedCards as TarotCard[]).find(c => c.name === modalCard.name);
-            if (updatedCard) {
-              setModalCard(updatedCard);
-            }
-          }}
         />
       )}
 

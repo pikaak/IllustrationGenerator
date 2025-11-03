@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, X, Sparkles } from "lucide-react";
+import { Download } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -15,11 +15,9 @@ interface CardDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   card: TarotCard;
-  isGenerating: boolean;
-  handleRegenerate: () => void;
 }
 
-export function CardDetailModal({ isOpen, onClose, card, isGenerating, handleRegenerate }: CardDetailModalProps) {
+export function CardDetailModal({ isOpen, onClose, card }: CardDetailModalProps) {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = card.imageUrl;
@@ -112,30 +110,12 @@ export function CardDetailModal({ isOpen, onClose, card, isGenerating, handleReg
             <div className="flex gap-3 p-8 pt-4 border-t">
               <Button
                 onClick={handleDownload}
-                className="flex-1 gap-2"
+                className="w-full gap-2"
                 size="lg"
                 data-testid="button-download-modal"
               >
                 <Download className="h-5 w-5" />
                 Download Card
-              </Button>
-              <Button
-                onClick={handleRegenerate}
-                variant="outline"
-                size="lg"
-                className="gap-2"
-                disabled={isGenerating}
-              >
-                <Sparkles className="h-5 w-5" />
-                {isGenerating ? "Regenerating..." : "Regenerate Card"}
-              </Button>
-              <Button
-                onClick={onClose}
-                variant="outline"
-                size="lg"
-                data-testid="button-close-modal"
-              >
-                <X className="h-5 w-5" />
               </Button>
             </div>
           </div>
