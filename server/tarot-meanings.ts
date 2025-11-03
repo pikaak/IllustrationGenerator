@@ -4,6 +4,42 @@ export const TAROT_MEANINGS: Record<string, {
   symbolism: string;
   keywords: string;
 }> = {
+  "The Fool": {
+    uprightMeaning: "The Fool represents new beginnings, innocence, and spontaneous adventure. He embodies unlimited potential and the courage to step into the unknown. This card signals a fresh start, trust in the journey, and freedom from convention. It encourages taking leaps of faith, embracing your authentic self, and following your heart despite uncertainty.",
+    reversedMeaning: "Reversed, The Fool may indicate recklessness, naivety, or poor judgment. There may be foolish risks, lack of planning, or refusing to take responsibility. This position suggests the need to think before acting, learn from past mistakes, and balance spontaneity with wisdom.",
+    symbolism: "A young figure stands at the edge of a cliff, carefree and gazing upward, with a small dog at their feet. The white rose represents purity, while the small bundle on a staff contains untapped potential. The sun shines brightly, symbolizing optimism and enlightenment. The cliff represents the leap into the unknown.",
+    keywords: "New Beginnings, Innocence, Adventure, Faith, Spontaneity, Freedom, Potential, Optimism, Risk"
+  },
+  "The Magician": {
+    uprightMeaning: "The Magician represents manifestation, resourcefulness, and the power to create reality. He shows mastery over the elements and the ability to channel divine energy into material form. This card signals a time of action, utilizing skills and resources to achieve goals. It encourages taking initiative, focusing willpower, and recognizing your creative power.",
+    reversedMeaning: "Reversed, The Magician may indicate manipulation, trickery, or misuse of power. There may be untapped potential, lack of focus, or using skills for selfish purposes. This position suggests examining intentions, developing dormant talents, and avoiding deception or shortcuts.",
+    symbolism: "The Magician stands before a table holding the symbols of the four suits (wand, cup, sword, pentacle), representing the elements. One hand points to the heavens, the other to earth, showing 'as above, so below.' The infinity symbol above his head indicates unlimited potential. Roses and lilies grow around him, representing passion and purity.",
+    keywords: "Manifestation, Power, Action, Resourcefulness, Skill, Focus, Willpower, Creation, Initiative"
+  },
+  "The High Priestess": {
+    uprightMeaning: "The High Priestess represents intuition, sacred knowledge, and the unconscious mind. She sits between light and dark, conscious and unconscious, serving as guardian of hidden mysteries. This card signals a time to trust inner wisdom, explore spirituality, and pay attention to dreams and symbols. It encourages listening to intuition and honoring the sacred feminine.",
+    reversedMeaning: "Reversed, The High Priestess may indicate disconnection from intuition, secrets being revealed, or repressed feelings surfacing. There may be ignoring inner voice, lack of spiritual connection, or information being withheld. This position calls for reconnecting with intuition and addressing what has been hidden or denied.",
+    symbolism: "The High Priestess sits between two pillars marked B and J (Boaz and Jachin), representing duality. A veil decorated with pomegranates hangs behind her, concealing mysteries. The Torah scroll in her lap represents divine law and hidden knowledge. The crescent moon at her feet symbolizes the unconscious and feminine power.",
+    keywords: "Intuition, Mystery, Unconscious, Wisdom, Secrets, Spirituality, Inner Voice, Sacred Knowledge, Feminine Power"
+  },
+  "The Lovers": {
+    uprightMeaning: "The Lovers represent union, harmony, and important choices. Beyond romantic love, this card signifies alignment of values, conscious decision-making, and integration of opposites. It indicates relationships, partnerships, and choosing between head and heart. This card encourages authentic connection, moral choices, and embracing love in all forms.",
+    reversedMeaning: "Reversed, The Lovers may indicate disharmony, poor choices, or conflicting values. There may be relationship struggles, indecision, or misalignment between partners. This position suggests examining relationship dynamics, clarifying values, and making choices that honor your true self.",
+    symbolism: "A man and woman stand beneath an angel, representing divine blessing on their union. Behind the woman is the Tree of Knowledge with a serpent, and behind the man is the Tree of Life with flames. The mountain in the distance represents challenges overcome together. The angel Raphael represents healing and communication.",
+    keywords: "Love, Union, Choices, Harmony, Relationships, Values, Partnership, Alignment, Connection"
+  },
+  "The Moon": {
+    uprightMeaning: "The Moon represents illusion, intuition, and the realm of the subconscious. It illuminates the path through darkness while casting shadows of uncertainty. This card signals a time of dreams, psychic awareness, and facing fears or anxieties. It encourages trusting intuition through confusion, exploring the shadow self, and accepting that not everything is as it seems.",
+    reversedMeaning: "Reversed, The Moon may indicate clarity emerging, releasing fears, or deception being revealed. There may be confusion lifting, overcoming anxiety, or seeing through illusions. This position suggests that truth is coming to light and intuitive blocks are clearing.",
+    symbolism: "The Moon hangs in the sky between two towers, casting light on a path that leads from a pool of water into distant mountains. A crayfish emerges from the water, symbolizing the unconscious. A dog and wolf howl at the moon, representing tamed and wild aspects of the mind. The path represents the journey through uncertainty.",
+    keywords: "Illusion, Intuition, Unconscious, Fear, Dreams, Mystery, Anxiety, Psychic Awareness, Shadow Work"
+  },
+  "The Sun": {
+    uprightMeaning: "The Sun represents joy, success, and vitality. It brings warmth, clarity, and abundant positive energy. This card signals achievement, celebration, and radiating confidence. It indicates a time of optimism, good health, and things coming to light. The Sun encourages embracing your authentic self, celebrating life, and sharing your light with others.",
+    reversedMeaning: "Reversed, The Sun may indicate temporary setbacks, dampened enthusiasm, or delayed success. There may be difficulty seeing the positive, depression, or lack of clarity. This position suggests that the clouds will part, but patience and self-care are needed to restore your inner light.",
+    symbolism: "A large sun with a face radiates in the sky, sending straight rays of light. A naked child rides a white horse, representing innocence and purity. Sunflowers grow in a garden behind a wall, symbolizing growth and turning toward light. The red banner represents vitality and passion. Everything in the card represents openness and truth revealed.",
+    keywords: "Joy, Success, Vitality, Positivity, Clarity, Celebration, Confidence, Achievement, Enlightenment"
+  },
   "The Empress": {
     uprightMeaning: "The Empress represents abundance, nurturing, and fertility. She embodies the mother figure archetype, bringing forth creativity, beauty, and growth. This card signals a time of prosperity, sensual pleasure, and connection to nature. It encourages you to nurture yourself and others, trust in natural cycles, and embrace your creative power.",
     reversedMeaning: "Reversed, The Empress may indicate creative blocks, neglect of self-care, or difficulties in nurturing relationships. There may be issues with fertility, smothering behavior, or dependence on others. This position calls for reconnecting with your body, setting healthy boundaries, and addressing imbalances between giving and receiving.",
