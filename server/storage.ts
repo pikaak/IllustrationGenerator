@@ -1,5 +1,7 @@
-import { type TarotCard, type InsertTarotCard } from "@shared/schema";
+import { type TarotCard, type InsertTarotCard, tarotCards } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Tarot card operations
@@ -8,48 +10,45 @@ export interface IStorage {
   getAllTarotCards(): Promise<TarotCard[]>;
   createTarotCard(card: InsertTarotCard): Promise<TarotCard>;
   updateTarotCard(id: string, card: Partial<InsertTarotCard>): Promise<TarotCard | undefined>;
+  deleteTarotCard(id: string): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private tarotCards: Map<string, TarotCard>;
-
-  constructor() {
-    this.tarotCards = new Map();
-  }
-
+export class DatabaseStorage implements IStorage {
   async getTarotCard(id: string): Promise<TarotCard | undefined> {
-    return this.tarotCards.get(id);
+    const [card] = await db.select().from(tarotCards).where(eq(tarotCards.id, id));
+    return card;
   }
 
   async getTarotCardByName(name: string): Promise<TarotCard | undefined> {
-    return Array.from(this.tarotCards.values()).find(
-      (card) => card.name === name,
-    );
+    const [card] = await db.select().from(tarotCards).where(eq(tarotCards.name, name));
+    return card;
   }
 
   async getAllTarotCards(): Promise<TarotCard[]> {
-    return Array.from(this.tarotCards.values());
+    return await db.select().from(tarotCards);
   }
 
   async createTarotCard(insertCard: InsertTarotCard): Promise<TarotCard> {
     const id = randomUUID();
-    const card: TarotCard = {
+    const [card] = await db.insert(tarotCards).values({
       ...insertCard,
       id,
-      generatedAt: new Date(),
-    };
-    this.tarotCards.set(id, card);
+    }).returning();
     return card;
   }
 
   async updateTarotCard(id: string, updateData: Partial<InsertTarotCard>): Promise<TarotCard | undefined> {
-    const card = this.tarotCards.get(id);
-    if (!card) return undefined;
+    const [updated] = await db.update(tarotCards)
+      .set(updateData)
+      .where(eq(tarotCards.id, id))
+      .returning();
+    return updated;
+  }
 
-    const updatedCard: TarotCard = { ...card, ...updateData };
-    this.tarotCards.set(id, updatedCard);
-    return updatedCard;
+  async deleteTarotCard(id: string): Promise<boolean> {
+    const result = await db.delete(tarotCards).where(eq(tarotCards.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

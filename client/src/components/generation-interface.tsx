@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TAROT_CARDS, type TarotCardName } from "@shared/schema";
+import { TAROT_CARDS, type TarotCardName, type TarotCard } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,7 @@ interface GenerationInterfaceProps {
   selectedCard: TarotCardName | null;
   setSelectedCard: (card: TarotCardName | null) => void;
   isGenerating: boolean;
-  generatedCards: Map<string, string>;
+  generatedCards: Map<string, TarotCard>;
 }
 
 export function GenerationInterface({

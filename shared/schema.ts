@@ -1,4 +1,4 @@
-import { pgTable, text, varchar, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -8,6 +8,15 @@ export const tarotCards = pgTable("tarot_cards", {
   imageUrl: text("image_url").notNull(),
   prompt: text("prompt").notNull(),
   generatedAt: timestamp("generated_at").notNull().defaultNow(),
+  style: varchar("style", { length: 50 }).default("mystical"),
+  colorPalette: varchar("color_palette", { length: 50 }).default("vibrant"),
+  borderPattern: varchar("border_pattern", { length: 50 }).default("ornate"),
+  isCustom: boolean("is_custom").notNull().default(false),
+  version: integer("version").notNull().default(1),
+  uprightMeaning: text("upright_meaning"),
+  reversedMeaning: text("reversed_meaning"),
+  symbolism: text("symbolism"),
+  keywords: text("keywords"),
 });
 
 export const insertTarotCardSchema = createInsertSchema(tarotCards).omit({
@@ -17,6 +26,14 @@ export const insertTarotCardSchema = createInsertSchema(tarotCards).omit({
 
 export type InsertTarotCard = z.infer<typeof insertTarotCardSchema>;
 export type TarotCard = typeof tarotCards.$inferSelect;
+
+export const cardStyles = ["mystical", "realistic", "artistic", "watercolor", "vintage"] as const;
+export const colorPalettes = ["vibrant", "muted", "monochrome", "pastel", "cosmic"] as const;
+export const borderPatterns = ["ornate", "simple", "geometric", "floral", "celestial"] as const;
+
+export type CardStyle = typeof cardStyles[number];
+export type ColorPalette = typeof colorPalettes[number];
+export type BorderPattern = typeof borderPatterns[number];
 
 export const TAROT_CARDS = [
   "The Fool",

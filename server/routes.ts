@@ -6,6 +6,7 @@ import { storage } from "./storage";
 import { generateTarotCardImage, batchGenerateTarotCards } from "./gemini";
 import { saveImageToFile } from "./image-storage";
 import { TAROT_CARDS } from "@shared/schema";
+import { TAROT_MEANINGS } from "./tarot-meanings";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -16,16 +17,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/cards", async (req, res) => {
     try {
       const cards = await storage.getAllTarotCards();
-
-      // Return as a Map-compatible structure (array of [key, value] pairs)
-      const cardsMap = new Map<string, string>();
-      cards.forEach(card => {
-        cardsMap.set(card.name, card.imageUrl);
-      });
-
-      // Convert Map to object for JSON serialization
-      const cardsObject = Object.fromEntries(cardsMap);
-      res.json(cardsObject);
+      res.json(cards);
     } catch (error: any) {
       console.error("Error fetching cards:", error);
       res.status(500).json({ error: "Failed to fetch cards" });
@@ -51,11 +43,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Save image to file
       const imageUrl = saveImageToFile(cardName, base64Image);
 
+      // Get card meanings if available
+      const meanings = TAROT_MEANINGS[cardName] || {};
+
       // Store in database
       const card = await storage.createTarotCard({
         name: cardName,
         imageUrl,
         prompt,
+        ...meanings,
       });
 
       console.log(`Successfully generated: ${cardName}`);
@@ -106,11 +102,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
               const imageUrl = saveImageToFile(cardName, base64Image);
               // Use the updated prompt for Cat Tarot
               const prompt = `Cat tarot card illustrations for ${cardName}, ornate border, mystical atmosphere, 2:3 aspect ratio`;
+              
+              // Get card meanings if available
+              const meanings = TAROT_MEANINGS[cardName] || {};
 
               await storage.createTarotCard({
                 name: cardName,
                 imageUrl,
                 prompt,
+                ...meanings,
               });
 
               savedCount++;

@@ -1,12 +1,12 @@
-import { TAROT_CARDS } from "@shared/schema";
+import { TAROT_CARDS, type TarotCard } from "@shared/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Download, Sparkles } from "lucide-react";
 
 interface GallerySectionProps {
-  generatedCards: Map<string, string>;
-  onCardClick: (cardName: string, imageUrl: string) => void;
+  generatedCards: Map<string, TarotCard>;
+  onCardClick: (card: TarotCard) => void;
   onDownloadAll: () => void;
 }
 
@@ -49,9 +49,9 @@ export function GallerySection({ generatedCards, onCardClick, onDownloadAll }: G
         {/* Gallery Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {TAROT_CARDS.map((cardName) => {
-            const imageUrl = generatedCards.get(cardName);
+            const card = generatedCards.get(cardName);
             
-            if (!imageUrl) {
+            if (!card) {
               return (
                 <Card
                   key={cardName}
@@ -76,13 +76,13 @@ export function GallerySection({ generatedCards, onCardClick, onDownloadAll }: G
               <Card
                 key={cardName}
                 className="overflow-hidden border-2 shadow-xl cursor-pointer group hover-elevate transition-all duration-300 hover:shadow-2xl"
-                onClick={() => onCardClick(cardName, imageUrl)}
+                onClick={() => onCardClick(card)}
                 data-testid={`card-gallery-${cardName.replace(/\s+/g, '-').toLowerCase()}`}
               >
                 <CardContent className="p-0 relative">
                   <div className="aspect-[2/3] overflow-hidden">
                     <img
-                      src={imageUrl}
+                      src={card.imageUrl}
                       alt={`${cardName} tarot card`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { type TarotCardName } from "@shared/schema";
+import { type TarotCardName, type TarotCard } from "@shared/schema";
 import { HeroSection } from "@/components/hero-section";
 import { GenerationInterface } from "@/components/generation-interface";
 import { GallerySection } from "@/components/gallery-section";
@@ -11,17 +11,19 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export default function Home() {
   const [selectedCard, setSelectedCard] = useState<TarotCardName | null>(null);
-  const [modalCard, setModalCard] = useState<{ name: string; imageUrl: string } | null>(null);
+  const [modalCard, setModalCard] = useState<TarotCard | null>(null);
   const { toast } = useToast();
 
   // Fetch all generated cards
-  const { data: generatedCardsData } = useQuery<Record<string, string>>({
+  const { data: cardsArray } = useQuery<TarotCard[]>({
     queryKey: ["/api/cards"],
     refetchInterval: 5000, // Poll every 5 seconds during batch generation
   });
 
-  // Convert object to Map for easier use in components
-  const generatedCards = new Map(Object.entries(generatedCardsData || {}));
+  // Convert array to Map for easier lookup (by name -> full card object)
+  const generatedCards = new Map(
+    (cardsArray || []).map(card => [card.name, card])
+  );
 
   // Generate single card mutation
   const generateCardMutation = useMutation({
@@ -78,11 +80,11 @@ export default function Home() {
   const handleDownloadAll = () => {
     if (!generatedCards || generatedCards.size === 0) return;
 
-    generatedCards.forEach((imageUrl, cardName) => {
+    generatedCards.forEach((card) => {
       setTimeout(() => {
         const link = document.createElement("a");
-        link.href = imageUrl;
-        link.download = `${cardName.replace(/\s+/g, '_')}_tarot_card.png`;
+        link.href = card.imageUrl;
+        link.download = `${card.name.replace(/\s+/g, '_')}_tarot_card.png`;
         link.click();
       }, 100);
     });
@@ -115,7 +117,7 @@ export default function Home() {
 
       <GallerySection
         generatedCards={generatedCards}
-        onCardClick={(name, url) => setModalCard({ name, imageUrl: url })}
+        onCardClick={(card) => setModalCard(card)}
         onDownloadAll={handleDownloadAll}
       />
 
@@ -123,8 +125,7 @@ export default function Home() {
         <CardDetailModal
           isOpen={true}
           onClose={() => setModalCard(null)}
-          cardName={modalCard.name}
-          imageUrl={modalCard.imageUrl}
+          card={modalCard}
         />
       )}
 
