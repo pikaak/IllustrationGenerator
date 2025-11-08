@@ -1,23 +1,24 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
-
+import { setupVite, /* serveStatic, */ log } from "./vite"; // serveStatic은 사용 안함
 import path from "path";
 import { fileURLToPath } from "url";
 
 const app = express();
 
-declare module 'http' {
+declare module "http" {
   interface IncomingMessage {
-    rawBody: unknown
+    rawBody: unknown;
   }
 }
 
-app.use(express.json({
-  verify: (req, _res, buf) => {
-    req.rawBody = buf;
-  }
-}));
+app.use(
+  express.json({
+    verify: (req, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
@@ -38,11 +39,9 @@ app.use((req, res, next) => {
       if (capturedJsonResponse) {
         try {
           logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-        } catch { /* ignore stringify failure */ }
+        } catch { /* noop */ }
       }
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
+      if (logLine.length > 80) logLine = logLine.slice(0, 79) + "…";
       log(logLine);
     }
   });
@@ -59,23 +58,21 @@ app.use((req, res, next) => {
     res.status(status).json({ message });
     throw err;
   });
-  
+
   if (app.get("env") === "development") {
+    // 개발에서는 Vite 미들웨어 사용
     await setupVite(app, server);
-  } else {    
+  } else {
+    // 프로덕션(Render)에서는 client/dist를 직접 서빙
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const distPath = path.join(__dirname, "../client/dist");
-    
-    app.use(express.static(distPath));    
+
+    app.use(express.static(distPath));
     app.get("*", (_req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
-    
-    // serveStatic(app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Default to 5000 if not specified. This serves both the API and the client.
   const port = parseInt(process.env.PORT || "5000", 10);
   server.listen(
     {
