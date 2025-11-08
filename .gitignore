@@ -1,6 +1,64 @@
-node_modules
-dist
+# ===============================
+# OS / Tool generated files
+# ===============================
 .DS_Store
-server/public
+Thumbs.db
+desktop.ini
+.local/
+.replit
+*.log
+
+# ===============================
+# Node / Vite / TypeScript
+# ===============================
+node_modules/
+dist/
+build/
+out/
+.cache/
+*.tsbuildinfo
 vite.config.ts.*
 *.tar.gz
+
+# ===============================
+# Project-specific (client/server)
+# ===============================
+client/node_modules/
+client/dist/
+client/build/
+server/node_modules/
+server/dist/
+server/build/
+server/public/
+
+# ===============================
+# Environment / Secrets
+# ===============================
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+
+# ===============================
+# System / Temporary files
+# ===============================
+__pycache__/
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.swo
+*.orig
+*.old
+*.zip
+*.tar
+*.tar.gz
+
+# ===============================
+# IDE / Editor configs
+# ===============================
+.vscode/
+.idea/
+*.code-workspace
